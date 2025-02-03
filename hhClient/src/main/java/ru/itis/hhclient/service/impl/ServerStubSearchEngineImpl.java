@@ -12,6 +12,7 @@ import ru.itis.hhclient.gprc.ResumeServiceGrpc;
 import ru.itis.hhclient.mapper.ResumeMapper;
 import ru.itis.hhclient.service.ResumeSearchEngine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -51,6 +52,10 @@ public class ServerStubSearchEngineImpl implements ResumeSearchEngine {
             Thread.sleep(1200);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        }
+        if(response[0] == null) {
+            log.error("Nothing found from gRPC!");
+            return new ArrayList<>();
         }
         return response[0].getListList().stream().map(mapper::toDto).toList();
     }
